@@ -5,14 +5,31 @@
     "jsx": "preserve",
     "incremental": true,
     "moduleResolution": "Bundler",
-    "types": ["node", "react"],
+    "types": [
+      "node",
+      "react"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@core/*": ["../../packages/core/src/*"],
-      "@validation/*": ["../../packages/validation/src/*"],
-      "@infra/*": ["../../packages/infra/src/*"],
-      "@test/*": ["../../packages/test/src/*"]
-    }
+      "@core/*": [
+        "../../packages/core/src/*"
+      ],
+      "@validation/*": [
+        "../../packages/validation/src/*"
+      ],
+      "@infra/*": [
+        "../../packages/infra/src/*"
+      ],
+      "@test/*": [
+        "../../packages/test/src/*"
+      ]
+    },
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -21,7 +38,10 @@
     "**/*.cjs",
     "**/*.mjs",
     "**/*.cts",
-    "**/*.mts"
+    "**/*.mts",
+    ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

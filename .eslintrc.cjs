@@ -17,7 +17,12 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    next: {
+      rootDir: ['apps/web'],
+    },
   },
-  rules: {},
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+  },
   ignorePatterns: ['dist', 'build', '.next', 'coverage'],
 };
