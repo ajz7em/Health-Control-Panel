@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "typecheck": "tsc --build ../../tsconfig.json --pretty false",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@hcp/core": "workspace:*",
+    "@hcp/infra": "workspace:*",
+    "@hcp/validation": "workspace:*",
     "@tanstack/react-query": "5.89.0",
     "autoprefixer": "10.4.17",
     "chart.js": "4.4.1",
@@ -24,6 +27,7 @@
     "tailwindcss": "3.4.1"
   },
   "devDependencies": {
+    "@hcp/test": "workspace:*",
     "@playwright/test": "1.55.0",
     "@types/react": "18.2.64",
     "@types/react-dom": "18.2.19",

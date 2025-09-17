@@ -4,25 +4,23 @@
     "allowJs": true,
     "jsx": "preserve",
     "incremental": true,
+    "composite": true,
     "moduleResolution": "Bundler",
-    "types": [
-      "node",
-      "react"
-    ],
+    "types": ["node", "react", "react-dom"],
     "baseUrl": ".",
     "paths": {
-      "@core/*": [
-        "../../packages/core/src/*"
-      ],
-      "@validation/*": [
-        "../../packages/validation/src/*"
-      ],
-      "@infra/*": [
-        "../../packages/infra/src/*"
-      ],
-      "@test/*": [
-        "../../packages/test/src/*"
-      ]
+      "@core": ["../../packages/core/src"],
+      "@core/*": ["../../packages/core/src/*"],
+      "@hcp/core": ["../../packages/core/src"],
+      "@validation": ["../../packages/validation/src"],
+      "@validation/*": ["../../packages/validation/src/*"],
+      "@hcp/validation": ["../../packages/validation/src"],
+      "@infra": ["../../packages/infra/src"],
+      "@infra/*": ["../../packages/infra/src/*"],
+      "@hcp/infra": ["../../packages/infra/src"],
+      "@test": ["../../packages/test/src"],
+      "@test/*": ["../../packages/test/src/*"],
+      "@hcp/test": ["../../packages/test/src"]
     },
     "isolatedModules": true,
     "plugins": [
@@ -41,7 +39,11 @@
     "**/*.mts",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
+  "exclude": ["node_modules"],
+  "references": [
+    { "path": "../../packages/core" },
+    { "path": "../../packages/validation" },
+    { "path": "../../packages/infra" },
+    { "path": "../../packages/test" }
   ]
 }

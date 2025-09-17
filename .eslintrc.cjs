@@ -1,5 +1,10 @@
 module.exports = {
   root: true,
+  env: {
+    browser: true,
+    node: true,
+    es2021: true,
+  },
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -11,7 +16,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:import/typescript',
-    'prettier'
+    'prettier',
   ],
   settings: {
     react: {
@@ -19,6 +24,11 @@ module.exports = {
     },
     next: {
       rootDir: ['apps/web'],
+    },
+    'import/resolver': {
+      typescript: {
+        project: ['./tsconfig.json'],
+      },
     },
   },
   rules: {

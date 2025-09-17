@@ -1,0 +1,26 @@
+name: Deploy migrations
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Deploy Prisma migrations
+        run: pnpm --filter @hcp/infra prisma:deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
