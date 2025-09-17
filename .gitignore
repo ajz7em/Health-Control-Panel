@@ -6,6 +6,8 @@ node_modules
 out
 coverage
 .playwright
+playwright-report
+test-results
 .vscode
 .env
 .env.local

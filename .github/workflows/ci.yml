@@ -77,6 +77,8 @@ jobs:
           cache: pnpm
       - name: Install
         run: pnpm install --frozen-lockfile
+      - name: Install Playwright browsers
+        run: pnpm --filter web exec playwright install --with-deps
       - name: Run unit tests
         run: pnpm test:unit
       - name: Run e2e tests
