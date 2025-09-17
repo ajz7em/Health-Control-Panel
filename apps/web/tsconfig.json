@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "moduleResolution": "Bundler",
+    "types": ["node", "react"],
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["../../packages/core/src/*"],
+      "@validation/*": ["../../packages/validation/src/*"],
+      "@infra/*": ["../../packages/infra/src/*"],
+      "@test/*": ["../../packages/test/src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.mjs",
+    "**/*.cts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
