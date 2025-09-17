@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2024-03-27
+
+### Fixed
+- Ensure workspace unit tests exit cleanly by running Vitest in single-run mode,
+  allowing empty test suites during early scaffolding.
+
 ## [0.1.1] - 2025-09-17
 
 ### Fixed
