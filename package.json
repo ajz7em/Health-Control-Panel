@@ -9,7 +9,7 @@
     "lint": "pnpm lint:root && pnpm --filter web lint",
     "lint:root": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "pnpm --recursive run typecheck",
+    "typecheck": "tsc --build tsconfig.json --pretty false",
     "test": "pnpm --recursive run test",
     "test:unit": "pnpm --filter './packages/**' test",
     "test:e2e": "pnpm --filter web test:e2e",

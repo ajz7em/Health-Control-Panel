@@ -7,4 +7,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// TODO: Add models based on domain specification.
+model User {
+  id            String             @id @default(cuid())
+  email         String             @unique
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  profile       OnboardingProfile?
+  intakeEntries DailyIntakeEntry[]
+  bodyMetrics   DailyBodyMetric[]
+}
+
+model OnboardingProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  birthDate     DateTime
+  sex           String
+  heightCm      Float
+  activityLevel String
+  goals         String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model DailyIntakeEntry {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  consumedAt   DateTime
+  meal         String
+  item         String
+  calories     Int
+  proteinGrams Float    @default(0)
+  carbsGrams   Float    @default(0)
+  fatGrams     Float    @default(0)
+  sodiumMg     Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([userId, consumedAt])
+}
+
+model DailyBodyMetric {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id])
+  recordedAt        DateTime
+  weightKg          Float
+  bodyFatPercentage Float?
+  restingHeartRate  Int?
+  createdAt         DateTime @default(now())
+
+  @@index([userId, recordedAt])
+}

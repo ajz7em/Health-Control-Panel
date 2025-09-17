@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0] - 2024-03-28
+
+### Added
+- Node 20 toolchain hints via `.nvmrc` plus repository-wide EditorConfig guidance.
+- Baseline Prisma schema, migrations, and seed script for nutrition tracking data.
+- Healthcheck API route, domain calculators, validation schemas, and unit tests.
+
+### Changed
+- Updated documentation with quick-start instructions and an aligned roadmap.
+- Simplified CI expectations and workspace TypeScript configuration references.
+
 ## [0.1.3] - 2025-09-17
 
 ### Fixed

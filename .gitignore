@@ -17,3 +17,4 @@ test-results
 dist
 build
 /tmp
+packages/infra/prisma/dev.db
