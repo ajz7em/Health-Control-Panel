@@ -50,8 +50,11 @@ function writeEntries(entries: WeightEntry[]): void {
 }
 
 function createId(): string {
-  if (typeof globalThis.crypto?.randomUUID === 'function') {
-    return globalThis.crypto.randomUUID();
+  if (typeof window !== 'undefined') {
+    const randomUUID = window.crypto?.randomUUID;
+    if (typeof randomUUID === 'function') {
+      return randomUUID.call(window.crypto);
+    }
   }
 
   return Math.random().toString(36).slice(2);

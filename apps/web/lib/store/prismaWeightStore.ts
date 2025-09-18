@@ -9,10 +9,10 @@ type PrismaWeightRecord = {
 };
 
 type PrismaWeightDelegate = {
-  findMany(args?: unknown): Promise<PrismaWeightRecord[]>;
-  create(args: { data: PrismaWeightCreateInput }): Promise<PrismaWeightRecord>;
-  update(args: { where: { id: string }; data: PrismaWeightUpdateInput }): Promise<PrismaWeightRecord>;
-  delete(args: { where: { id: string } }): Promise<PrismaWeightRecord>;
+  findMany(_args?: unknown): Promise<PrismaWeightRecord[]>;
+  create(_args: { data: PrismaWeightCreateInput }): Promise<PrismaWeightRecord>;
+  update(_args: { where: { id: string }; data: PrismaWeightUpdateInput }): Promise<PrismaWeightRecord>;
+  delete(_args: { where: { id: string } }): Promise<PrismaWeightRecord>;
 };
 
 type PrismaWeightCreateInput = {

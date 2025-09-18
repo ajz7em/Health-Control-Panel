@@ -10,9 +10,9 @@ export interface WeightEntry {
 
 export interface WeightStore {
   list(): Promise<WeightEntry[]>;
-  create(entry: Omit<WeightEntry, 'id'>): Promise<WeightEntry>;
-  update(id: string, entry: Partial<Omit<WeightEntry, 'id'>>): Promise<WeightEntry>;
-  delete(id: string): Promise<void>;
+  create(_entry: Omit<WeightEntry, 'id'>): Promise<WeightEntry>;
+  update(_id: string, _entry: Partial<Omit<WeightEntry, 'id'>>): Promise<WeightEntry>;
+  delete(_id: string): Promise<void>;
 }
 
 const KG_TO_LB = 2.2046226218;
