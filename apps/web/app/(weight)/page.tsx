@@ -4,11 +4,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import WeightChart from '../../components/WeightChart';
 import WeightForm from '../../components/WeightForm';
+import { isDemoModeEnabled } from '../../lib/env';
 import { LocalStorageWeightStore } from '../../lib/store/localStorageWeightStore';
 import type { WeightEntry } from '../../lib/store/weightStore';
 import { parseLocalDate } from '../../lib/time';
 
-const demoMode = process.env.NEXT_PUBLIC_DEMO_MODE === '1';
+const demoMode = isDemoModeEnabled();
 
 const compareEntries = (a: WeightEntry, b: WeightEntry) => {
   if (a.readingDate === b.readingDate) {

@@ -22,5 +22,8 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     stdout: 'pipe',
     stderr: 'pipe',
+    env: {
+      NEXT_PUBLIC_DEMO_MODE: '1',
+    },
   },
 });

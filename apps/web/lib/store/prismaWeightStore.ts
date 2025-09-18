@@ -40,10 +40,12 @@ const globalForPrisma = globalThis as typeof globalThis & {
   __weight_prisma__?: PrismaClientLike;
 };
 
+type PrismaModule = { PrismaClient: new () => PrismaClientLike };
+
 const getClient = async (): Promise<PrismaClientLike> => {
   if (!globalForPrisma.__weight_prisma__) {
-    const prismaModule = await import('@prisma/client');
-    const PrismaClientConstructor = (prismaModule as { PrismaClient: new () => PrismaClientLike }).PrismaClient;
+    const prismaModule = (await import('@prisma/client')) as unknown as PrismaModule;
+    const PrismaClientConstructor = prismaModule.PrismaClient;
     globalForPrisma.__weight_prisma__ = new PrismaClientConstructor();
   }
 

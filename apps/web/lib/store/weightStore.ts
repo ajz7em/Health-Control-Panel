@@ -1,5 +1,7 @@
 import Decimal from 'decimal.js';
 
+import { isDemoModeEnabled } from '../env';
+
 export type Unit = 'KG' | 'LB';
 
 export type WeightEntry = {
@@ -73,7 +75,7 @@ export const sortWeightEntries = (entries: WeightEntry[]) => {
 };
 
 export async function makeWeightStore(): Promise<WeightStore> {
-  if (process.env.NEXT_PUBLIC_DEMO_MODE === '1') {
+  if (isDemoModeEnabled()) {
     const { LocalStorageWeightStore } = await import('./localStorageWeightStore');
     return new LocalStorageWeightStore();
   }
