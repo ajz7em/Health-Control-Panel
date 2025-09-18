@@ -11,16 +11,28 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@core/*": [
+      "@hcp/core": [
+        "../../packages/core/src/index.ts"
+      ],
+      "@hcp/core/*": [
         "../../packages/core/src/*"
       ],
-      "@validation/*": [
+      "@hcp/validation": [
+        "../../packages/validation/src/index.ts"
+      ],
+      "@hcp/validation/*": [
         "../../packages/validation/src/*"
       ],
-      "@infra/*": [
+      "@hcp/infra": [
+        "../../packages/infra/src/index.ts"
+      ],
+      "@hcp/infra/*": [
         "../../packages/infra/src/*"
       ],
-      "@test/*": [
+      "@hcp/test": [
+        "../../packages/test/src/index.ts"
+      ],
+      "@hcp/test/*": [
         "../../packages/test/src/*"
       ]
     },

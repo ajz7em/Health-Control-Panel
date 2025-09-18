@@ -10,10 +10,12 @@
     "lint:root": "eslint .",
     "format": "prettier --write .",
     "typecheck": "pnpm --recursive run typecheck",
-    "test": "pnpm --recursive run test",
-    "test:unit": "pnpm --filter './packages/**' test",
+    "test": "pnpm test:unit && node ./scripts/run-e2e.mjs",
+    "test:unit": "pnpm --filter './packages/**' test && pnpm --filter web test",
     "test:e2e": "pnpm --filter web test:e2e",
-    "ci": "pnpm lint && pnpm typecheck && pnpm test"
+    "ci": "pnpm lint && pnpm typecheck && pnpm test",
+    "test:fast": "pnpm test:unit",
+    "db:reset": "pnpm --filter @hcp/infra prisma:generate && pnpm --filter @hcp/infra prisma:migrate && pnpm --filter @hcp/infra prisma:seed"
   },
   "dependencies": {},
   "devDependencies": {
