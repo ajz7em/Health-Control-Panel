@@ -3,7 +3,7 @@
 import type { WeightStore } from './shared';
 
 export type { Unit, WeightEntry, WeightStore } from './shared';
-export { sortWeightEntries, toKgLb } from './shared';
+export { isValidLoggedAt, sortWeightEntries, toKgLb } from './shared';
 
 async function loadLocalStore(): Promise<WeightStore> {
   const { createLocalStorageWeightStore } = await import('./localStorageWeightStore');

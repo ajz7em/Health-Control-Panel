@@ -1,4 +1,10 @@
-import { sortWeightEntries, type WeightEntry, type WeightStore } from './shared';
+import {
+  assertValidLoggedAt,
+  isValidLoggedAt,
+  sortWeightEntries,
+  type WeightEntry,
+  type WeightStore,
+} from './shared';
 
 const STORAGE_KEY = 'hcp:weights';
 
@@ -31,7 +37,8 @@ function readEntries(): WeightEntry[] {
             typeof entry.id === 'string' &&
             typeof entry.weight === 'number' &&
             typeof entry.unit === 'string' &&
-            typeof entry.loggedAt === 'string',
+            typeof entry.loggedAt === 'string' &&
+            isValidLoggedAt(entry.loggedAt),
         ),
       )
       .map((entry) => ({ ...entry, note: entry.note ?? null }));
@@ -72,7 +79,7 @@ export function createLocalStorageWeightStore(): WeightStore {
         id: createId(),
         weight: entry.weight,
         unit: entry.unit,
-        loggedAt: entry.loggedAt,
+        loggedAt: assertValidLoggedAt(entry.loggedAt),
         note: entry.note ?? null,
       };
 
@@ -95,6 +102,10 @@ export function createLocalStorageWeightStore(): WeightStore {
         ...partial,
         note: partial.note ?? entries[index].note ?? null,
       };
+
+      if ('loggedAt' in partial && typeof partial.loggedAt === 'string') {
+        updated.loggedAt = assertValidLoggedAt(partial.loggedAt);
+      }
 
       const nextEntries = entries.slice();
       nextEntries[index] = updated;

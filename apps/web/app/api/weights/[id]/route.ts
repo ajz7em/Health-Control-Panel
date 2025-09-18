@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import {
+  isValidLoggedAt,
   makeWeightStore,
   type Unit,
   type WeightEntry,
@@ -33,7 +34,7 @@ function parsePartialPayload(data: unknown): Partial<Omit<WeightEntry, 'id'>> | 
   }
 
   if (typeof loggedAt !== 'undefined') {
-    if (typeof loggedAt !== 'string' || !loggedAt) {
+    if (typeof loggedAt !== 'string' || !isValidLoggedAt(loggedAt)) {
       return null;
     }
     result.loggedAt = loggedAt;

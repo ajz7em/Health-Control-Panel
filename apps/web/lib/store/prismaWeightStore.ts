@@ -1,4 +1,10 @@
-import { sortWeightEntries, type Unit, type WeightEntry, type WeightStore } from './shared';
+import {
+  loggedAtToDate,
+  sortWeightEntries,
+  type Unit,
+  type WeightEntry,
+  type WeightStore,
+} from './shared';
 
 type PrismaWeightRecord = {
   id: string;
@@ -70,7 +76,7 @@ export async function createPrismaWeightStore(): Promise<WeightStore> {
         data: {
           weight: entry.weight,
           unit: entry.unit,
-          loggedAt: new Date(entry.loggedAt),
+          loggedAt: loggedAtToDate(entry.loggedAt),
           note: entry.note ?? null,
         },
       });
@@ -84,8 +90,8 @@ export async function createPrismaWeightStore(): Promise<WeightStore> {
         data: {
           ...('weight' in partial ? { weight: partial.weight } : {}),
           ...('unit' in partial ? { unit: partial.unit as Unit } : {}),
-          ...('loggedAt' in partial && partial.loggedAt
-            ? { loggedAt: new Date(partial.loggedAt) }
+          ...('loggedAt' in partial && typeof partial.loggedAt === 'string'
+            ? { loggedAt: loggedAtToDate(partial.loggedAt) }
             : {}),
           ...('note' in partial ? { note: partial.note ?? null } : {}),
         },

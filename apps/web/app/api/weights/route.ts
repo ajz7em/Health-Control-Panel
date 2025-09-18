@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import {
+  isValidLoggedAt,
   makeWeightStore,
   type Unit,
   type WeightEntry,
@@ -17,7 +18,7 @@ function parsePayload(data: unknown): Omit<WeightEntry, 'id'> | null {
 
   const { weight, unit, loggedAt, note } = data as Partial<WeightEntry>;
 
-  if (!isUnit(unit) || typeof loggedAt !== 'string' || !loggedAt) {
+  if (!isUnit(unit) || typeof loggedAt !== 'string' || !isValidLoggedAt(loggedAt)) {
     return null;
   }
 
