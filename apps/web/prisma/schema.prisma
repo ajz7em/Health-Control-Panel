@@ -1,0 +1,20 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model WeightEntry {
+  id          String   @id @default(cuid())
+  kg          Decimal  @db.Decimal(5, 2)
+  lb          Decimal  @db.Decimal(5, 2)
+  readingDate String
+  readingTime String?
+  enteredUnit String
+  createdAt   DateTime @default(now())
+
+  @@index([readingDate])
+}

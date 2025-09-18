@@ -19,7 +19,7 @@ export default function RootLayout({
           <header className="mb-10">
             <h1 className="text-3xl font-semibold">Health Control Panel</h1>
             <p className="text-sm text-slate-300">
-              Monorepo foundation ready for weight and nutrition analytics modules.
+              Track weight readings, compare units, and experiment with demo or database-backed storage.
             </p>
           </header>
           <main className="flex-1">{children}</main>
