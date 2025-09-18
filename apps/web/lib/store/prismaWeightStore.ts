@@ -1,19 +1,6 @@
 /* eslint-env es2020 */
 
-import { PrismaClient } from '@prisma/client';
 import { sortWeightEntries, toKgLb, type Unit, type WeightEntry, type WeightStore } from './weightStore';
-
-const globalForPrisma = globalThis as typeof globalThis & {
-  __weight_prisma__?: PrismaClient;
-};
-
-const getClient = () => {
-  if (!globalForPrisma.__weight_prisma__) {
-    globalForPrisma.__weight_prisma__ = new PrismaClient();
-  }
-
-  return globalForPrisma.__weight_prisma__;
-};
 
 type DecimalLike = { toNumber(): number };
 
@@ -27,6 +14,42 @@ type WeightEntryRecord = {
   createdAt: Date;
 };
 
+/* eslint-disable no-unused-vars */
+type PrismaWeightDelegate = {
+  findMany(_args: {
+    orderBy: Array<{ readingDate?: 'asc' | 'desc'; readingTime?: 'asc' | 'desc'; createdAt?: 'asc' | 'desc' }>;
+  }): Promise<WeightEntryRecord[]>;
+  create(_args: {
+    data: {
+      kg: number;
+      lb: number;
+      readingDate: string;
+      readingTime: string | null;
+      enteredUnit: string;
+    };
+  }): Promise<WeightEntryRecord>;
+  delete(_args: { where: { id: string } }): Promise<void>;
+};
+/* eslint-enable no-unused-vars */
+
+type PrismaClientLike = {
+  weightEntry: PrismaWeightDelegate;
+};
+
+const globalForPrisma = globalThis as typeof globalThis & {
+  __weight_prisma__?: PrismaClientLike;
+};
+
+const getClient = async (): Promise<PrismaClientLike> => {
+  if (!globalForPrisma.__weight_prisma__) {
+    const prismaModule = await import('@prisma/client');
+    const PrismaClientConstructor = (prismaModule as { PrismaClient: new () => PrismaClientLike }).PrismaClient;
+    globalForPrisma.__weight_prisma__ = new PrismaClientConstructor();
+  }
+
+  return globalForPrisma.__weight_prisma__;
+};
+
 const toWeightEntry = (record: WeightEntryRecord): WeightEntry => ({
   id: record.id,
   kg: record.kg.toNumber(),
@@ -38,14 +61,15 @@ const toWeightEntry = (record: WeightEntryRecord): WeightEntry => ({
 });
 
 export class PrismaWeightStore implements WeightStore {
-  private client: PrismaClient;
+  private readonly clientPromise: Promise<PrismaClientLike>;
 
-  constructor(client: PrismaClient = getClient()) {
-    this.client = client;
+  constructor(client?: PrismaClientLike) {
+    this.clientPromise = client ? Promise.resolve(client) : getClient();
   }
 
   async list(): Promise<WeightEntry[]> {
-    const results = await this.client.weightEntry.findMany({
+    const client = await this.clientPromise;
+    const results = await client.weightEntry.findMany({
       orderBy: [
         { readingDate: 'asc' },
         { readingTime: 'asc' },
@@ -59,10 +83,11 @@ export class PrismaWeightStore implements WeightStore {
   async add(
     input: Omit<WeightEntry, 'id' | 'createdAt' | 'kg' | 'lb'> & { value: number; unit: Unit },
   ): Promise<WeightEntry> {
+    const client = await this.clientPromise;
     const { value, unit, readingDate, readingTime, enteredUnit } = input;
     const { kg, lb } = toKgLb(value, unit);
 
-    const created = await this.client.weightEntry.create({
+    const created = await client.weightEntry.create({
       data: {
         kg,
         lb,
@@ -76,6 +101,7 @@ export class PrismaWeightStore implements WeightStore {
   }
 
   async remove(id: string): Promise<void> {
-    await this.client.weightEntry.delete({ where: { id } });
+    const client = await this.clientPromise;
+    await client.weightEntry.delete({ where: { id } });
   }
 }
