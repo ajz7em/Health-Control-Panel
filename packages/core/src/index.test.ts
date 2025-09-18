@@ -4,7 +4,7 @@ import { kcalFromMet, rmrMifflinStJeor, thermicEffectOfFood } from './index';
 
 describe('rmrMifflinStJeor', () => {
   it('calculates the male resting metabolic rate', () => {
-    expect(rmrMifflinStJeor('male', 82, 182, 33)).toBe(1842);
+    expect(rmrMifflinStJeor('male', 82, 182, 33)).toBe(1798);
   });
 
   it('calculates the female resting metabolic rate', () => {
@@ -18,8 +18,8 @@ describe('rmrMifflinStJeor', () => {
 
 describe('kcalFromMet', () => {
   it('converts MET values to calories over time', () => {
-    const calories = kcalFromMet(8.5, 70, 1.25);
-    expect(Math.round(calories)).toBe(261);
+    const calories = kcalFromMet(8.5, 70, 1.25); // ≈ 780.94 kcal
+    expect(Math.round(calories)).toBe(781);
   });
 
   it('rejects invalid values', () => {
