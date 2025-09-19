@@ -1,14 +1,26 @@
 import { NextResponse } from 'next/server';
 
 import {
-  isValidLoggedAt,
+  getLocalDateParts,
+  isUnit,
+  isValidLocalDate,
   makeWeightStore,
-  type Unit,
+  toKgLb,
   type WeightEntry,
 } from '../../../lib/store/serverFactory';
 
-function isUnit(value: unknown): value is Unit {
-  return value === 'kg' || value === 'lb';
+type Mode = 'now' | 'backfill';
+
+type PostPayload = {
+  value?: unknown;
+  unit?: unknown;
+  mode?: unknown;
+  readingDate?: unknown;
+  note?: unknown;
+};
+
+function isMode(value: unknown): value is Mode {
+  return value === 'now' || value === 'backfill';
 }
 
 function parsePayload(data: unknown): Omit<WeightEntry, 'id'> | null {
@@ -16,21 +28,50 @@ function parsePayload(data: unknown): Omit<WeightEntry, 'id'> | null {
     return null;
   }
 
-  const { weight, unit, loggedAt, note } = data as Partial<WeightEntry>;
+  const { value, unit, mode, readingDate, note } = data as PostPayload;
 
-  if (!isUnit(unit) || typeof loggedAt !== 'string' || !isValidLoggedAt(loggedAt)) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
     return null;
   }
 
-  if (typeof weight !== 'number' || !Number.isFinite(weight)) {
+  if (!isUnit(unit) || !isMode(mode)) {
     return null;
+  }
+
+  const now = new Date();
+  const { kg, lb } = toKgLb(value, unit);
+
+  let derivedReadingDate: string;
+  let derivedReadingTime: string | null;
+
+  if (mode === 'now') {
+    const { readingDate: datePart, readingTime } = getLocalDateParts(now);
+    derivedReadingDate = datePart;
+    derivedReadingTime = readingTime;
+  } else {
+    if (typeof readingDate !== 'string' || !isValidLocalDate(readingDate)) {
+      return null;
+    }
+    derivedReadingDate = readingDate;
+    derivedReadingTime = null;
+  }
+
+  let noteValue: string | null = null;
+  if (typeof note !== 'undefined') {
+    if (note !== null && typeof note !== 'string') {
+      return null;
+    }
+    noteValue = note ?? null;
   }
 
   return {
-    weight,
-    unit,
-    loggedAt,
-    note: note ?? null,
+    kg,
+    lb,
+    enteredUnit: unit,
+    readingDate: derivedReadingDate,
+    readingTime: derivedReadingTime,
+    createdAtIso: now.toISOString(),
+    note: noteValue,
   };
 }
 
