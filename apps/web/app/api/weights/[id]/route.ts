@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
 
+import { makeWeightStore, type WeightEntry } from '../../../../lib/store/serverFactory';
 import {
   isValidIsoTimestamp,
   isValidLocalDate,
   isValidLocalTime,
-  makeWeightStore,
-  type WeightEntry,
-} from '../../../../lib/store/serverFactory';
+} from '../../../../lib/store/shared';
 
 type PatchPayload = Partial<WeightEntry>;
 
