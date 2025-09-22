@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
 
+import { makeWeightStore, type WeightEntry } from '../../../lib/store/serverFactory';
 import {
   getLocalDateParts,
   isUnit,
   isValidLocalDate,
-  makeWeightStore,
   toKgLb,
-  type WeightEntry,
-} from '../../../lib/store/serverFactory';
+} from '../../../lib/store/shared';
 
 type Mode = 'now' | 'backfill';
 
